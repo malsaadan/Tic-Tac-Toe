@@ -11,10 +11,23 @@
 </head>
 
 <header>
-    <audio preload="auto" controls loop autoplay>
-        <source src="audio/The-Triumph-of-the-Clock-Maker.mp3" type="audio/mp3"/>
+    <img src="imgs/muted.png" id="muted">
+    <audio muted autoplay loop>
+        <source src="audio/The-Triumph-of-the-Clock-Maker.mp3" type="audio/mp3" />
         Audio tag not supported
     </audio>
+    <div class="how-modal">
+        <div class="how-modal-content">
+            <span class="close">&times;</span>
+            <h4>HOW TO PLAY TIC-TAC-TOE?</h4>
+            <ul>
+                <li>The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
+                </li>
+                <li>When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends
+                    in a tie..</li>
+            </ul>
+        </div>
+    </div>
 </header>
 
 <body>
@@ -28,23 +41,13 @@
         <div class="how-modal">
             <div class="how-modal-content">
                 <span class="close">&times;</span>
-                <h4>HOW CAN I WIN AT TIC-TAC-TOE?</h4>
-                <p>To beat the computer (or at least tie), you need to make use of a little bit of strategy. Strategy
-                    means figuring out what you need to do to win.</p>
-
-                <p>Part of your strategy is trying to figure out how to get three Xs in a row. The other part is trying
-                    to figure out how to stop the computer from getting three Os in a row.</p>
-
-                <p>After you put an X in a square, you start looking ahead. Where's the best place for your next X? You
-                    look at the empty squares and decide which ones are good choices—which ones might let you make three
-                    Xs in a row.</p>
-
-                <p>You also have to watch where the computer puts its O. That could change what you do next. If the
-                    computer gets two Os in a row, you have to put your next X in the last empty square in that row, or
-                    the computer will win. You are forced to play in a particular square or lose the game.</p>
-
-                <p>If you always pay attention and look ahead, you'll never lose a game of Tic-Tac-Toe. You may not
-                    win, but at least you'll tie.</p>
+                <h4>HOW TO PLAY TIC-TAC-TOE?</h4>
+                <ul>
+                    <li>The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
+                    </li>
+                    <li>When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends
+                        in a tie..</li>
+                </ul>
             </div>
         </div>
     </main>

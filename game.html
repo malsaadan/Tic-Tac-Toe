@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tic Tac Toe</title>
+    <title>Playing Tic Tac Toe</title>
     <link rel="icon" href="imgs/title-logo.png">
     <link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
@@ -17,31 +17,21 @@
         <div class="how-modal">
             <div class="how-modal-content">
                 <span class="close">&times;</span>
-                <h4>HOW CAN I WIN AT TIC-TAC-TOE?</h4>
-                <p>To beat the computer (or at least tie), you need to make use of a little bit of strategy. Strategy
-                    means figuring out what you need to do to win.</p>
-
-                <p>Part of your strategy is trying to figure out how to get three Xs in a row. The other part is trying
-                    to figure out how to stop the computer from getting three Os in a row.</p>
-
-                <p>After you put an X in a square, you start looking ahead. Where's the best place for your next X? You
-                    look at the empty squares and decide which ones are good choices—which ones might let you make three
-                    Xs in a row.</p>
-
-                <p>You also have to watch where the computer puts its O. That could change what you do next. If the
-                    computer gets two Os in a row, you have to put your next X in the last empty square in that row, or
-                    the computer will win. You are forced to play in a particular square or lose the game.</p>
-
-                <p>If you always pay attention and look ahead, you'll never lose a game of Tic-Tac-Toe. You may not
-                    win, but at least you'll tie.</p>
+                <h4>HOW TO PLAY TIC-TAC-TOE?</h4>
+                <ul>
+                    <li>The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
+                    </li>
+                    <li>When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends
+                        in a tie..</li>
+                </ul>
             </div>
         </div>
 
-        
+
     </header>
 
     <main id="board-game">
-        <h3 id="turn">Player 1's turn</h3>
+        <h3 id="turn"></h3>
         <div id="board">
             <div id="block-1"></div>
             <div id="block-2"></div>
@@ -61,10 +51,6 @@
             <button class="again">Play again</button>
         </div>
     </div>
-
-    <aside id="player-one-aside">
-        <label id="player-one-name"></label>
-    </aside>
     <div id="modal">
         <div class="modal-content">
             <h4>Are you sure you want to leave the game?</h4>
@@ -72,6 +58,15 @@
             <button id="confirm">Confirm</button>
         </div>
     </div>
+
+    <aside id="aside-p1">
+        <h2 id="p1"></h2>
+        <h3 id="p1-wins"></h3>
+    </aside>
+    <aside id="aside-p2">
+        <h2 id="p2"></h2>
+        <h3 id="p2-wins"></h3>
+    </aside>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

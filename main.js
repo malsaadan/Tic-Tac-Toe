@@ -6,14 +6,13 @@ console.log('It works!!!');
     TODO: game.html
 */
 
-// ** index.html section ** 
-const checkNumPlayers = function () {
-    // Check value of number of players input
-    const numPlayers = $('#num-players').val();
-    // if num of players equals 1 >> redirect to one player lobby , else redirect to two players lobby
-    (numPlayers === '1') ? directTo1PlayerLobby(): directTo2PlayersLobby();
-}
 
+// ** global **
+let players = [];
+// **
+
+
+// ** index.html section ** 
 const directTo1PlayerLobby = function () {
     console.log('1 Player Lobby');
     // redirection
@@ -26,30 +25,77 @@ const directTo2PlayersLobby = function () {
     window.location.href = 'twoPlayersLobby.html';
 }
 
+const directToMainPage = function () {
+    window.location.href = 'index.html';
+}
+
 // Event listener on num of players button
-$('#players-button').click(checkNumPlayers);
+$('#single').click(directTo1PlayerLobby);
+$('#multi').click(directTo2PlayersLobby);
+$('#back').click(directToMainPage);
+$('#game-logo').click(function () {
+    const modal = $('#modal');
+    modal.css('display', 'block');
+    $('#confirm').click(directToMainPage);
+    $('#cancel').click(function () {
+        modal.css('display', 'none')
+    });
+});
+
 // ** end of index.html section **
 
 
 
 // ** start of lobby.html section ** 
+
 // get location of current page
 const getPlayersInfo = function () {
     let loc = window.location.pathname;
     loc = loc.substr(loc.lastIndexOf('/') + 1);
+
     if (loc === 'onePlayerLobby.html') {
         const playerInput = $('#player');
-        const player = playerInput.val();
+        const playerName = playerInput.val().trim();
 
-        console.log(player)
+        // validate
+        if (playerName) {
+            console.log("I'm here before game.html")
+            const player = {
+                name: playerName,
+                highestScore: 0, 
+            };
+            players.push(player);
+            window.location.href = 'game.html';
+            
+        } else {
+            $(playerInput).attr('class', 'invalid');
+        }
+
+
     } else if (loc === 'twoPlayersLobby.html') {
-        const playerOne = $('#player-one').val();
-        const playerTwo = $('#player-two').val();
-        console.log(playerOne, playerTwo);
+        const playerOneInput = $('#player-one');
+        const playerOneName = playerOneInput.val().trim();
+        const playerTwoInput = $('#player-two');
+        const playerTwoName = playerTwoInput.val().trim();
+
+        if (playerOneName && playerTwoName) {
+            window.location.href = 'game.html';
+
+        } else {
+            if (!playerOneName && !playerTwoName) {
+                $(playerOneInput).attr('class', 'invalid');
+                $(playerTwoInput).attr('class', 'invalid');
+            } else if (!playerOneName) {
+                $(playerOneInput).attr('class', 'invalid');
+                $(playerTwoInput).attr('class', '');
+            } else {
+                $(playerOneInput).attr('class', '');
+                $(playerTwoInput).attr('class', 'invalid');
+            }
+        }
     }
 
     // redirect to game page
-    window.location.href = 'game.html';
 
 }
 $('#play-game').click(getPlayersInfo);
@@ -85,38 +131,38 @@ window.onclick = function () {
 // ** end of How to play section **
 
 
-
 // ** start of board logic
 let flag = true;
 let count = 0;
 const playTurn = function () {
     const turn = $('#turn');
 
-    if ($(this).text() === '') {
+    if ($(this).children().length === 0) {
         if (flag) {
-            $(this).text('X');
+            $(this).append('<img src="imgs/xx.png">');
             turn.text("Player 2's turn");
             flag = false;
-            $(this).css('cursor', 'default');
+
             playerMov[0].push(this.id);
             console.log(playerMov[0].length);
             if (playerMov[0].length >= 3)
                 checkWinner();
-                count++;
+            count++;
         } else {
-            $(this).text('O');
+            $(this).append('<img src="imgs/circle.png">');
             turn.text("Player 1's turn");
             flag = true;
-            $(this).css('cursor', 'default');
             playerMov[1].push(this.id);
             console.log(playerMov[1].length);
             if (playerMov[1].length >= 3)
                 checkWinner();
-                count++;
+            count++;
         }
-    } 
-    if(count === 9)
-    tieGame();
+        $(this).css('cursor', 'default');
+        $(this).css('background', '#EDEEEE');
+    }
+    if (count === 9)
+        tieGame();
 };
 
 const board = $('#board > div');
@@ -168,23 +214,26 @@ const tieGame = function () {
 }
 
 
-const playAgain = function() {
+const playAgain = function () {
     console.log('play again function')
     const modal = $('.modal');
-    playerMov = [[],[]];
+    playerMov = [
+        [],
+        []
+    ];
     resetBoard();
     modal.css('display', 'none');
 }
 
 
-const resetBoard = function() {
+const resetBoard = function () {
     const board = $('#board>div');
-    for(let i = 0; i < board.length; i++){
-    const block = '#'+board[i].id;
-    $(block).text('');
-    $(block).css('cursor', 'pointer');
-    count = 0;
-    flag = true;
+    for (let i = 0; i < board.length; i++) {
+        const block = '#' + board[i].id;
+        $(block).text('');
+        $(block).css('cursor', 'pointer');
+        count = 0;
+        flag = true;
     }
 }
 
@@ -192,4 +241,16 @@ $('.again').click(playAgain);
 
 // ** 
 
+
+// ** get score ** 
+
+
+// **
+
+
+// ** AI function **
+const easyPlay = function () {
+
+}
+// **
 // ** end of game.html section**

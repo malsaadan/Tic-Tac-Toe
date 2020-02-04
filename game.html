@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Tic Tac Toe</title>
+    <link rel="icon" href="imgs/title-logo.png">
     <link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
 
 <body>
-    <header>
-        <img src="imgs/XO.png" alt="tic tac toe logo">
-        <button id="how">How to play?</button>
+    <header id="game-header">
+        <img src="imgs/logo2.png" id="game-logo" alt="tic tac toe logo">
+        <button id="how">How to Play?</button>
         <div class="how-modal">
-            <div class="modal-content">
+            <div class="how-modal-content">
                 <span class="close">&times;</span>
                 <h4>HOW CAN I WIN AT TIC-TAC-TOE?</h4>
                 <p>To beat the computer (or at least tie), you need to make use of a little bit of strategy. Strategy
@@ -35,10 +36,12 @@
                     win, but at least you'll tie.</p>
             </div>
         </div>
+
+        
     </header>
 
     <main id="board-game">
-        <p id="turn">Player 1's turn</p>
+        <h3 id="turn">Player 1's turn</h3>
         <div id="board">
             <div id="block-1"></div>
             <div id="block-2"></div>
@@ -53,9 +56,20 @@
     </main>
     <div class="modal">
         <div class="modal-content">
-            <p id="score"></p>
+            <h3 id="score"></h3>
             <button class="leaderboard">View leaderboard</button>
             <button class="again">Play again</button>
+        </div>
+    </div>
+
+    <aside id="player-one-aside">
+        <label id="player-one-name"></label>
+    </aside>
+    <div id="modal">
+        <div class="modal-content">
+            <h4>Are you sure you want to leave the game?</h4>
+            <button id="cancel">Cancel</button>
+            <button id="confirm">Confirm</button>
         </div>
     </div>
 

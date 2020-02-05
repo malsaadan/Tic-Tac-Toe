@@ -30,11 +30,15 @@ $('#multi').click(directTo2PlayersLobby);
 let players = [];
 let match = [];
 
-/* document.addEventListener('DOMContentLoaded', (event) => {
-    const audio = document.querySelector('#music');
-    audio.playAgain();
-  }); */
 
+const music = $('#music');
+
+const playAudio = function(audio){
+    audio.autoPlay = true;
+    audio.load();
+}
+
+$(document).ready(playAudio(music));
 
 const playAudio = function () {
     const audio = $('audio');

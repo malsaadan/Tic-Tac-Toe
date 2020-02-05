@@ -9,14 +9,10 @@ console.log('It works!!!');
 
 // ** index.html section ** 
 const directTo1PlayerLobby = function () {
-    console.log('1 Player Lobby');
-    // redirection
     window.location.href = 'onePlayerLobby.html';
 }
 
 const directTo2PlayersLobby = function () {
-    console.log('2 Players Lobby');
-    // redirection
     window.location.href = 'twoPlayersLobby.html';
 }
 
@@ -91,17 +87,16 @@ const getPlayerTwo = function () {
 const checkPlayer = function (player, num) {
     const input = '#player-' + num;
     $(input).attr('class', '');
-    console.log(input);
     if (player) {
-       return true;
+        return true;
     }
-     // set the outline color as red which indicates for errorneous
-     $(input).attr('class', 'invalid');
-     return false;
+    // set the outline color as red which indicates for errorneous
+    $(input).attr('class', 'invalid');
+    return false;
 };
 
-const redirectToGamePage = function(p1, p2){
-    window.location.href = 'game.html?p1='+p1+'&p2='+p2;
+const redirectToGamePage = function (p1, p2) {
+    window.location.href = 'game.html?p1=' + p1 + '&p2=' + p2;
 }
 
 
@@ -120,8 +115,8 @@ const sendPlayerInfo = function () {
 
         // validate that the input is not empty
         if (checkPlayer(playerOne, 'one'))
-        redirectToGamePage(playerOne, playerTwo);
-  
+            redirectToGamePage(playerOne, playerTwo);
+
         // if current path is for multi players
     } else if (loc === 'twoPlayersLobby.html') {
         // get inputs' values
@@ -131,8 +126,8 @@ const sendPlayerInfo = function () {
         let checkPlayer2 = checkPlayer(playerTwo, 'two');
 
         // validate from input fields
-        if(checkPlayer1 && checkPlayer2)
-        redirectToGamePage(playerOne, playerTwo);
+        if (checkPlayer1 && checkPlayer2)
+            redirectToGamePage(playerOne, playerTwo);
     }
 }
 
@@ -144,33 +139,39 @@ $('#play-game').click(sendPlayerInfo);
 
 // ** start of game.html section **
 // Display names & wins
-const displayInfo = function() {
-    const playerOne = match[0];
-    const playerTwo = match[1];
-    console.log(playerOne, playerTwo);
-    $('#turn').text('current player: ' + playerOne.name);
-    $('#p1').text(playerOne.name);
-    $('#p1-wins').text('wins: '+playerOne.wins);
-    $('#p2').text(playerTwo.name);
-    $('#p2-wins').text('wins: '+playerTwo.wins);
+const displayInfo = function () {
+    const one = match[0];
+    const two = match[1];
+    $('#turn').text('current player: ' + one.name);
+    $('#p1').text(one.name);
+    $('#p1-wins').text('win: ' + one.wins);
+    $('#p1-losses').text('lose: ' + one.losses);
+    $('#p1-ties').text('tie: ' + one.ties);
+    $('#p2').text(two.name);
+    $('#p2-wins').text('win: ' + two.wins);
+    $('#p2-losses').text('lose: ' + two.losses);
+    $('#p2-ties').text('tie ' + two.ties);
 }
 
-const getPlayerInfo = function(){
-let loc = window.location.search;
-loc = loc.substr(loc.indexOf('?')+1);
-const name1 = (loc.substr(loc.indexOf('=')+1, (loc.indexOf('&')-3)));
-const name2 = loc.substr(loc.indexOf('&')+4);
-console.log(name1, name2);
-match.push({
-    name: name1,
-    wins: 0,
-});
-match.push({
-    name: name2,
-    wins: 0
-});
+const getPlayerInfo = function () {
+    let loc = window.location.search;
+    loc = loc.substr(loc.indexOf('?') + 1);
+    const name1 = (loc.substr(loc.indexOf('=') + 1, (loc.indexOf('&') - 3)));
+    const name2 = loc.substr(loc.indexOf('&') + 4);
+    match.push({
+        name: name1,
+        wins: 0,
+        losses: 0,
+        ties: 0,
+    });
+    match.push({
+        name: name2,
+        wins: 0,
+        losses: 0,
+        ties: 0,
+    });
 
-displayInfo();
+    displayInfo();
 };
 
 $(document).ready(getPlayerInfo);
@@ -180,76 +181,145 @@ $('#game-logo').click(function () {
     const modal = $('#modal');
     // display modal block for confirmation
     modal.css('display', 'block');
-    $('#confirm').click(directToMainPage);
+    $('.confirm').click(directToMainPage);
     $('#cancel').click(function () {
         modal.css('display', 'none')
     });
 });
 
 
-// ** start of board logic
 
 // array to save players' movements
 let playerMov = [
     [],
     []
-]
+];
 
 // boolean variable to switch between players
 let flag = true;
+let win = false;
+let matchCont = true;
 // counter to count no. of steps and end the game when reaching 9
 let count = 0;
 
-// function to play a turn
-const playTurn = function () {
-    const turn = $('#turn');
+const board = $('#board > div');
 
-    // if current div doesn't contain any child element
-    if ($(this).children().length === 0) {
-        // true means it's player 1 turn
-        if (flag) {
-            $(this).append('<img src="imgs/xx.png">');
-            turn.text('current player: '+match[0].name);
-            // change value of the flag to switch to second player
+const playerStep = function (block, num) {
+    $('#turn').text('current player: ' + match[num].name);
+
+    if (!playerMov[0].includes(block) && !playerMov[1].includes(block)) {
+        // change value of the flag to switch to second player
+        if (num === 0) {
+            $('#' + block).append('<img src="imgs/x.png">');
             flag = false;
-            // append the id to movement array
-            playerMov[0].push(this.id);
-            console.log(playerMov[0].length);
-            // if player 1 plays 3 steps
-            if (playerMov[0].length >= 3)
-                // check if player wins
-                checkWinner();
-            // increment counter to end game when all blocks are filled = reaching 9
-            count++;
-            // player 2 turn >> same logic as player 1 
         } else {
-            $(this).append('<img src="imgs/circle.png">');
-            turn.text('current player: '+match[1].name);
+            $('#' + block).append('<img src="imgs/o.png">');
             flag = true;
-            playerMov[1].push(this.id);
-            console.log(playerMov[1].length);
-            if (playerMov[1].length >= 3)
-                checkWinner();
-            count++;
         }
 
-        // after player finish his turn > change curser for current block to default
-        // remove hover background on current block
-        $(this).css('cursor', 'default');
-        $(this).css('background', '#EDEEEE');
-    }
+        // append the id to movement array
+        playerMov[num].push(block);
+        // increment counter to end game when all blocks are filled = reaching 9
+        count++;
+    
+
+    // if player 1 plays 3 steps
+    if (playerMov[num].length >= 3)
+        // check if player wins
+        if (checkWinner())
+            return;
+
     // when all blocks are filled >> end the game with tie
-    if (count === 9)
+    if (count === 9) {
         tieGame();
+        return;
+    }
+
+
+    if (match[1].name === 'AI') {
+        console.log(board.length);
+        for (let i = 0; i < board.length; i++) {
+            const block = board[i].id;
+            $('#'+block).unbind();
+        }
+        const boardHover = $('#board>div:hover');
+        $('#turn').text('current player: ' + match[1].name);
+        setTimeout(aiStep, 2000);
+        clearTimeout();
+        if (count === 9) {
+            tieGame();
+            return;
+        }
+
+        for (let i = 0; i < board.length; i++) {
+            const block = board[i].id;
+            if (!playerMov[0].includes(block) && !(playerMov[1].includes(block)))
+                $('#' + block).click(playTurn);
+        }
+    }
+}
+}
+const aiStep = function () {
+    if (matchCont) {
+        let counter = 0;
+        const random = Math.floor(Math.random() * 9) + 1
+        const randomBlock = 'block-' + random;
+
+        if (!playerMov[0].includes(randomBlock) && !playerMov[1].includes(randomBlock)) {
+            $('#' + randomBlock).append('<img src="imgs/o.png">');
+            playerMov[1].push(randomBlock);
+            flag = true;
+            // increment counter to end game when all blocks are filled = reaching 9
+            count++;
+            $('#' + randomBlock).css('cursor', 'default');
+            $('#' + randomBlock).css('background', '#EDEEEE');
+            counter++;
+            console.log(counter);
+            $('#turn').text('current player: ' + match[0].name);
+            if (playerMov[1].length >= 3)
+                // check if player wins
+                if (checkWinner())
+                    return;
+
+        } else {
+            aiStep();
+        }
+    }
+    return
+}
+
+
+const playTurn = function () {
+    matchCont = true;
+    const block = this.id;
+
+    // if current div doesn't contain any child element
+    if ($(block).children().length === 0) {
+        // true means it's player 1 turn
+        if (flag) {
+            playerStep(block, 0);
+            // player 2 turn >> same logic as player 1 
+        } else {
+            playerStep(block, 1);
+
+        }
+
+        // after player finish his turn > change cursor for current block to default
+        // remove hover background on current block
+        $('#' + block).css('cursor', 'default');
+        $('#' + block).css('background', '#EDEEEE');
+    }
+
 };
 
-// get divs' ids and attach an event listener to them
-const board = $('#board > div');
+
+// Attach events
 for (let i = 0; i < board.length; i++) {
     const block = board[i].id;
     $('#' + block).click(playTurn);
 }
-// ** end of board logic **
+
+
 
 
 // ** winner logic **
@@ -275,17 +345,23 @@ const checkWinner = function () {
             playerMov[0].includes(winner[i][1]) &&
             playerMov[0].includes(winner[i][2])) {
             modal.css('display', 'block');
-            score.text(match[0].name+' wins');
+            score.text(match[0].name + ' wins');
             match[0].wins += 1;
+            match[1].losses += 1;
+            win = true;
 
         } else if (playerMov[1].includes(winner[i][0]) &&
             playerMov[1].includes(winner[i][1]) &&
             playerMov[1].includes(winner[i][2])) {
             modal.css('display', 'block');
-            score.text(match[1].name+' wins');
+            score.text(match[1].name + ' wins');
             match[1].wins += 1;
+            match[0].losses += 1;
+            win = true;
         }
     }
+
+    return win;
 }
 
 
@@ -294,12 +370,14 @@ const tieGame = function () {
     const score = $('#score');
     score.text('Tie Game');
     modal.css('display', 'block');
-
+    match[0].ties += 1;
+    match[1].ties += 1;
 }
+
+
 
 // when player clicks on play again >> reset all current variables to start over
 const playAgain = function () {
-    console.log('play again function')
     const modal = $('.modal');
     playerMov = [
         [],
@@ -311,33 +389,30 @@ const playAgain = function () {
 }
 
 
+
 const resetBoard = function () {
     const board = $('#board>div');
     for (let i = 0; i < board.length; i++) {
         const block = '#' + board[i].id;
+        $(block).click(playTurn);
         // remove children
         $(block).text('');
         // change cursor to pointer to indicate that the block is playable
         $(block).css('cursor', 'pointer');
         // restore hover background
-        $(block).css('background', '')
-        // reset counter for ending the game
-        count = 0;
-        // set player 1 as first player
-        flag = true;
+        $(block).css('background', '');
     }
+    // reset counter for ending the game
+    count = 0;
+    // set player 1 as first player
+    flag = true;
+    win = false;
+    matchCont = false;
 }
+
+
 
 $('.again').click(playAgain);
-
-// ** 
-
-
-// ** AI function **
-const easyPlay = function () {
-    let randomBlock = Math.floor(Math.random() * 9) + 1;
-
-}
-
+$('.confirm').click(directToMainPage);
 
 // ** end of game.html section**

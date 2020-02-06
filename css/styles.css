@@ -54,28 +54,28 @@
     top: 3%;
     font-weight: bolder;
     margin: 0;
-} 
+}
 
 main #how {
     margin-top: 1%;
     position: unset;
 }
 
-.how-modal-content > h4{
+.how-modal-content>h4 {
     color: #F25050;
     border-bottom: 1px outset #3a3a3a;
     margin: 10px;
     padding: 15px;
 }
 
-.how-modal-content > ul {
+.how-modal-content>ul {
     color: #3a3a3a;
     text-align: justify;
     margin: 5%;
     line-height: 2;
 }
 
-.how-modal-content > ul > li{
+.how-modal-content>ul>li {
     margin-bottom: 3%;
 }
 
@@ -168,15 +168,15 @@ img {
 }
 
 .btn-group button {
-font-size: 12px;
-cursor: pointer;
-border-radius: 0 3px 3px 0;
-padding: 8px 24px;
-float: left;
-outline: none;
-margin: 0;
-margin-top: 20px;
-margin-bottom: 1%;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 0 3px 3px 0;
+    padding: 8px 24px;
+    float: left;
+    outline: none;
+    margin: 0;
+    margin-top: 20px;
+    margin-bottom: 1%;
 }
 
 .btn-group:after {
@@ -185,7 +185,7 @@ margin-bottom: 1%;
     display: table;
 }
 
-.btn-group button:not(:last-child){
+.btn-group button:not(:last-child) {
     border-radius: 3px 0 0 3px;
     border-right: none;
 }
@@ -215,7 +215,8 @@ input {
 
 .invalid {
     outline-style: auto;
-    outline-color: hsl(0, 76%, 50%);;
+    outline-color: hsl(0, 76%, 50%);
+    ;
     outline-width: thick;
 }
 
@@ -276,7 +277,7 @@ input {
     background-color: transparent;
 }
 
-@media screen and (max-device-width: 4820px){
+@media screen and (max-device-width: 420px) {
 
     .logo-img {
         width: 50%;
@@ -287,7 +288,7 @@ input {
         font-size: smaller;
     }
 
-   
+
     button {
         width: auto;
         height: auto;
@@ -297,7 +298,7 @@ input {
         width: auto;
         padding: 1%;
     }
-    
+
     #game-header #how {
         display: none;
     }
@@ -311,7 +312,7 @@ input {
         height: 100%;
     }
 
-    img { 
+    img {
         width: 25%;
         height: 25%;
     }
@@ -322,7 +323,7 @@ input {
         font-size: 10px;
     }
 
-    .how-modal-content > ul {
+    .how-modal-content>ul {
         padding: 4%;
     }
 
@@ -332,25 +333,25 @@ input {
     }
 
     #board {
-        margin-top: 10%;
-      grid-template-columns: 100px 100px 100px;
-      grid-template-rows: 100px 100px 100px;
-      grid-gap: 5%;
+        margin-top: 20%;
+        grid-template-columns: 90px 90px 90px;
+        grid-template-rows: 90px 90px 90px;
+        grid-gap: 5%;
     }
 
-    #restart {
-        bottom: 5%;
+    #restart button {
+        padding: 10px;
     }
 
     #aside-p1,
     #aside-p2 {
-        top: 20%;
+        top: 18%;
         line-height: 0;
     }
 
     #aside-p1 h3,
-    #aside-p2 h3{
-        font-size: 12px;
+    #aside-p2 h3 {
+        font-size: 10px;
         display: inline;
     }
 

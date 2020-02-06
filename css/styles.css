@@ -101,7 +101,7 @@ main {
     align-content: center;
     width: 100%;
     height: auto;
-    margin-top: 4%;
+    margin-top: 5%;
 }
 
 #muted {
@@ -159,7 +159,7 @@ img {
 #restart {
     position: absolute;
     bottom: 2%;
-    left: 45%;
+    left: 46%;
 }
 
 .btn-group {
@@ -232,6 +232,7 @@ input {
     top: 30%;
     left: 10%;
     text-align: justify;
+    float: inline-start;
 }
 
 #p1 {
@@ -264,35 +265,45 @@ input {
     text-transform: capitalize;
 }
 
-@media screen and (max-width: 500px){
+#block {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: transparent;
+}
+
+@media screen and (max-width: 600px){
 
     .logo-img {
-        width: 90%;
+        width: 50%;
         margin-bottom: 3%;
     }
 
     main {
-        font-size: 14px;
-    }
-    main > label {
-        width: 80%;
+        font-size: smaller;
     }
 
+   
     button {
-        width: fit-content;
-        height: fit-content;
+        width: auto;
+        height: auto;
     }
 
+    input {
+        width: auto;
+        padding: 1%;
+    }
+    
     #game-header #how {
         display: none;
     }
 
     #game-header {
         width: 100%;
-    }
-
-    #board-game {
-        font-size: 12px;
     }
 
     #board {
@@ -311,14 +322,67 @@ input {
     }
 
     .how-modal-content {
-        padding: 1%;
+        padding: 3%;
         width: 90%;
-        line-height: 1;
-        font-size: 13px;
+        font-size: 10px;
+    }
+
+    .how-modal-content > ul {
+        padding: 4%;
     }
 
     .modal-content {
-        padding: 1%;
+        padding: 5%;
+        line-height: 0.5;
+    }
+
+    #board {
+      grid-template-columns: 100px 100px 100px;
+      grid-template-rows: 100px 100px 100px;
+      grid-gap: 5%;
+    }
+
+    #restart {
+        margin-top: 15%;
+        bottom: auto;
+        justify-self: center;
+        left: 41%;
+    }
+}
+
+
+@media screen and (max-width: 720px){
+
+    #aside-p1{
+        left: 19%;
+        line-height: 0.5;
+        top: auto;
+        bottom: 12%;
+    }
+
+    #aside-p2 {
+        right: 18%;
+        line-height: 0.5;
+        top: auto;
+        bottom: 12%;
+    }
+
+    #aside-p1 > h2, h3,
+    #aside-p2 > h2, h3 {
+        font-size: smaller;
+    }
+
+    #board {
+        grid-template-columns: 90px 90px 90px;
+        grid-template-rows: 90px 90px 90px;
+        grid-gap: 6%;
+      }
+
+      #restart {
+        margin-top: 15%;
+        bottom: auto;
+        justify-self: center;
+        left: 41%;
     }
 
 }

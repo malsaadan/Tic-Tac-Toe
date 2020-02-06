@@ -225,13 +225,13 @@ const playerTurn = function (block, num) {
         // first player
         if (num === 0) {
             // show image
-            $('#' + block).append('<img src="imgs/x.png">');
+            $('#' + block).append('<img src="imgs/xx.png">');
             // set current player's text to 1st player
             $('#turn').text('current player: ' + match[1].name);
             // second player
         } else {
             // show image
-            $('#' + block).append('<img src="imgs/o.png">');
+            $('#' + block).append('<img src="imgs/oo.png">');
             // set current player's text to 1st player
             $('#turn').text('current player: ' + match[0].name);
         }
@@ -256,7 +256,7 @@ const aiTurn = function () {
     // if the random block is not in either players' arrays
     if (!match[0].steps.includes(randomBlock) && !match[1].steps.includes(randomBlock)) {
         // show the image & disable the block for next turns
-        $('#' + randomBlock).append('<img src="imgs/o.png">');
+        $('#' + randomBlock).append('<img src="imgs/oo.png">');
         $('#' + randomBlock).css('cursor', 'default');
         $('#' + randomBlock).css('background', '#EDEEEE');
         // set current player's text to next player

@@ -133,14 +133,12 @@ const getPlayerInfo = function () {
         wins: 0,
         losses: 0,
         ties: 0,
-        steps: [],
     });
     match.push({
         name: name2,
         wins: 0,
         losses: 0,
         ties: 0,
-        steps: [],
     });
 
     displayInfo();
@@ -184,15 +182,6 @@ const playTurn = function () {
         $('#turn').text('current player: ' + match[0].name);
         playerTurn(block, 0);
 
-        // check if the player has won
-        if (checkWinner())
-            return;
-
-        // when all blocks are filled >> end the game with tie
-        if (count === 9) {
-            tieGame();
-            return;
-        }
         // if second player is an AI
         if (match[1].name === 'AI') {
             $('#turn').text('current player: ' + match[1].name);
@@ -201,27 +190,26 @@ const playTurn = function () {
             // give the illusion that the AI is thinking
             setTimeout(aiTurn, 1000);
             clearTimeout();
+            if (checkWinner())
+                return;
+
+            // when all blocks are filled >> end the game with tie
+            if (count === 9) {
+                tieGame();
+                return;
+            }
         }
 
         // second human player turn
     } else if (!isPlayerActive) {
         playerTurn(block, 1);
-
-        if (checkWinner())
-            return;
-
-        // when all blocks are filled >> end the game with tie
-        if (count === 9) {
-            tieGame();
-            return;
-        }
     }
 }
 
 // playing the turn
 const playerTurn = function (block, num) {
     // if current block is not in either player one or two's arrays (not played yet)
-    if (!match[0].steps.includes(block) && !match[1].steps.includes(block)) {
+    if (!playerMov[0].includes(block) && !playerMov[1].includes(block)) {
         // first player
         if (num === 0) {
             // show image
@@ -236,7 +224,7 @@ const playerTurn = function (block, num) {
             $('#turn').text('current player: ' + match[0].name);
         }
         // append the block to the passed player's array
-        match[num].steps.push(block);
+        playerMov[num].push(block);
         // increase the counter that ends the game when reaching 9 for tie
         count++;
 
@@ -245,6 +233,16 @@ const playerTurn = function (block, num) {
         // disable the passed block for next turns
         $('#' + block).css('cursor', 'default');
         $('#' + block).css('background', '#EDEEEE');
+
+        // check if the player has won
+        if (checkWinner())
+            return;
+
+        // when all blocks are filled >> end the game with tie
+        if (count === 9) {
+            tieGame();
+            return;
+        }
     }
 
 }
@@ -254,7 +252,7 @@ const aiTurn = function () {
     const random = Math.floor(Math.random() * 9) + 1;
     const randomBlock = 'block-' + random;
     // if the random block is not in either players' arrays
-    if (!match[0].steps.includes(randomBlock) && !match[1].steps.includes(randomBlock)) {
+    if (!playerMov[0].includes(randomBlock) && !playerMov[1].includes(randomBlock)) {
         // show the image & disable the block for next turns
         $('#' + randomBlock).append('<img src="imgs/oo.png">');
         $('#' + randomBlock).css('cursor', 'default');
@@ -262,7 +260,7 @@ const aiTurn = function () {
         // set current player's text to next player
         $('#turn').text('current player: ' + match[0].name);
         // append the block to player2's moves array
-        match[1].steps.push(randomBlock);
+        playerMov[1].push(randomBlock);
         count++;
 
         // enable 1st player to play his/her turn
@@ -270,15 +268,6 @@ const aiTurn = function () {
         // switch to the other player
         isPlayerActive = !isPlayerActive;
 
-        // check if AI wins
-        if (checkWinner())
-            return;
-
-        // when all blocks are filled >> end the game with tie
-        if (count === 9) {
-            tieGame();
-            return;
-        }
     } else {
         // if the random block exists in one of either arrays, choose another random block
         aiTurn();
@@ -309,26 +298,27 @@ const checkWinner = function () {
 
     // all the possible ways where a player can win
     for (let i = 0; i < 8; i++) {
-        if (match[0].steps.includes(winner[i][0]) &&
-            match[0].steps.includes(winner[i][1]) &&
-            match[0].steps.includes(winner[i][2])) {
+        if (playerMov[0].includes(winner[i][0]) &&
+            playerMov[0].includes(winner[i][1]) &&
+            playerMov[0].includes(winner[i][2])) {
             $(modal).css('display', 'block');
             score.text(match[0].name + ' wins');
             match[0].wins += 1;
             match[1].losses += 1;
             win = true;
+            return win;
 
-        } else if (match[1].steps.includes(winner[i][0]) &&
-            match[1].steps.includes(winner[i][1]) &&
-            match[1].steps.includes(winner[i][2])) {
+        } else if (playerMov[1].includes(winner[i][0]) &&
+            playerMov[1].includes(winner[i][1]) &&
+            playerMov[1].includes(winner[i][2])) {
             $(modal).css('display', 'block');
             score.text(match[1].name + ' wins');
             match[1].wins += 1;
             match[0].losses += 1;
             win = true;
+            return win;
         }
     }
-    return win;
 };
 
 // show the modal if the game is a tie
@@ -344,8 +334,8 @@ const tieGame = function () {
 // when player clicks on play again >> reset all current variables to start over
 const playAgain = function () {
     const modal = $('.modal');
-    match[0].steps = [];
-    match[1].steps = [];
+    playerMov[0] = [];
+    playerMov[1] = [];
     resetBoard();
     modal.css('display', 'none');
     displayInfo();

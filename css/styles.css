@@ -339,13 +339,15 @@ input {
         grid-gap: 5%;
     }
 
-    #restart button {
-        padding: 10px;
+    #restart {
+        position: absolute;
+        bottom: 30%;
+        left: 40%;
     }
 
     #aside-p1,
     #aside-p2 {
-        top: 18%;
+        top: 12%;
         line-height: 0;
     }
 
